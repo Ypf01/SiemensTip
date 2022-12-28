@@ -1,0 +1,125 @@
+﻿<Window x:Class="SiemensTip.Views.SettingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cv="clr-namespace:SiemensTip.Helper"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:SiemensTip.Views"
+        xmlns:mater="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SiemensTip.ViewModels"
+        x:Name="settingView"
+        Title="环境参数"
+        Width="350"
+        Height="450"
+        MinWidth="350"
+        MinHeight="450"
+        MaxWidth="350"
+        MaxHeight="450"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <vm:SettingViewModel x:Key="data" />
+        <cv:BoolTempConvert x:Key="convert" />
+        <Style BasedOn="{StaticResource MaterialDesignTextBlock}" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Width" Value="100" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="40" />
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource data}" />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Border>
+            <GroupBox Margin="5" BorderBrush="Black"
+                      BorderThickness="2" Header="图片保存设置"
+                      Style="{x:Null}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Vertical">
+                        <CheckBox Content="保存图片" IsChecked="{Binding IsSaveImage}" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" ToolTip="保存JPEG格式缩略图" />
+                        <CheckBox Content="保存原图"
+                                  IsChecked="{Binding IsWriteQuality}"
+                                  IsEnabled="{Binding IsSaveImage}"
+                                  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                  ToolTip="保存BMP格式原图" />
+                        <CheckBox Content="保存结果图"
+                                  IsChecked="{Binding IsWriteRes}"
+                                  IsEnabled="{Binding IsSaveImage}"
+                                  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                  ToolTip="保存视觉处理的结果图" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <CheckBox Margin="0,13,0,0" Content="仅保存NG"
+                                  IsChecked="{Binding IsWriteNG}"
+                                  IsEnabled="{Binding IsSaveImage}"
+                                  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Border>
+        <ProgressBar Grid.Row="1" Background="Transparent"
+                     BorderBrush="Transparent" BorderThickness="0"
+                     Foreground="Black" IsIndeterminate="True" />
+        <Border Grid.Row="2">
+            <GroupBox Margin="5" BorderBrush="Black"
+                      BorderThickness="2" Header="视觉参数设置"
+                      Style="{x:Null}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,10,0,10" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="BotRadiusMin：" ToolTip="圆半径阈值" />
+                            <TextBox mater:ValidationAssist.HasError="True" Text="{Binding BotRadiusMin}" ToolTip="圆半径最小阈值" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,10" Orientation="Horizontal">
+                            <TextBlock Text="Lateral_thMin：" ToolTip="批锋阈值" />
+                            <TextBox Text="{Binding Lateral_thMin}" ToolTip="批锋最小阈值" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                            <TextBlock Text="CfAngleMin：" ToolTip="离心度阈值" />
+                            <TextBox Text="{Binding CentrifugeAngleMin}" ToolTip="离心度最小阈值" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="0,10,0,10" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="BotRadiusMax：" ToolTip="圆半径阈值" />
+                            <TextBox mater:ValidationAssist.HasError="True" Text="{Binding BotRadiusMax}" ToolTip="圆半径最大阈值" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,10" Orientation="Horizontal">
+                            <TextBlock Text="Lateral_thMax：" ToolTip="批锋阈值" />
+                            <TextBox Text="{Binding Lateral_thMax}" ToolTip="批锋最大阈值" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                            <TextBlock Text="CfAngleMax：" ToolTip="离心度阈值" />
+                            <TextBox Text="{Binding CentrifugeAngleMax}" ToolTip="离心度最大阈值" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Border>
+        <Grid Grid.Row="3">
+            <Button Width="80" HorizontalAlignment="Right"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding SaveSetting}"
+                    CommandParameter="{Binding ElementName=settingView}"
+                    Content="设置"
+                    Style="{StaticResource Btn}" />
+        </Grid>
+    </Grid>
+</Window>

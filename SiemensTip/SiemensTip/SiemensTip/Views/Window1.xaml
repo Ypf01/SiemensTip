@@ -1,0 +1,92 @@
+﻿<Window x:Class="SiemensTip.Views.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cv="clr-namespace:SiemensTip.Helper"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:SiemensTip.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:vm="clr-namespace:SiemensTip.ViewModels"
+        Title="Window1"
+        Width="800"
+        Height="450"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <cv:ImageDisplayWidthHeightConverter x:Key="ImageLengthCv" />
+        <vm:ViewModelWM x:Key="test" />
+        <cv:ResultArrayConverter x:Key="sub"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource test}" />
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <ItemsControl x:Name="ItemsB" Grid.Row="1" ItemsSource="{Binding Dis}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid MaxWidth="{Binding ElementName=ItemsB, Path=ActualWidth}" MaxHeight="{Binding ElementName=ItemsB, Path=ActualHeight}" Columns="4" Rows="1" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:ImageDisplay MaxWidth="{Binding ElementName=ItemsB, Path=ActualWidth, Converter={StaticResource ImageLengthCv}}" MaxHeight="{Binding ElementName=ItemsB, Path=ActualHeight}" />
+                        <!--<Border BorderBrush="LightGray" BorderThickness="1">
+                            <Border Background="#FFFFFCFC" ClipToBounds="True" >
+                                <Image x:Name="DisplayImage" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                       Stretch="Uniform" Source="{Binding }">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonUp">
+                                            <prism:InvokeCommandAction Command="{Binding DataContext.MouseRightButtonUp, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseWheel">
+                                            <prism:InvokeCommandAction Command="{Binding DataContext.MouseWheel, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                            <prism:InvokeCommandAction Command="{Binding DataContext.MouseLeftButtonDown, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                            <prism:InvokeCommandAction Command="{Binding DataContext.MouseLeftButtonUp, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseMove">
+                                            <prism:InvokeCommandAction Command="{Binding DataContext.MouseMove, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Image>
+                            </Border>
+                        </Border>-->
+                        <!--<local:ImageDisplay MaxWidth="{Binding ElementName=ItemsB, Path=ActualWidth, Converter={StaticResource ImageLengthCv}}" MaxHeight="{Binding ElementName=ItemsB, Path=ActualHeight}" />-->
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Grid  Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="dd">
+                <StackPanel Orientation="Horizontal">
+                    <local:ResultShow DataContext="{Binding Result}" Height="{Binding ElementName=dd,Path=ActualHeight}" Width="{Binding ElementName=dd,Path=ActualWidth,Converter={StaticResource sub}}"/>
+                    <local:ResultShow DataContext="{Binding Result}" Height="{Binding ElementName=dd,Path=ActualHeight}" Width="{Binding ElementName=dd,Path=ActualWidth,Converter={StaticResource sub}}"/>
+                </StackPanel>
+
+            </Border>
+           
+            <StackPanel Grid.Column="1">
+                <TextBox Text="{Binding Targat}"/>
+                <TextBox Text="{Binding EndPos}"/>
+                <Button x:Name="_77" Content="写入" Command="{Binding Write}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,53 @@
+﻿<Window x:Class="SiemensTip.Views.LateralTemplate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:SiemensTip.Views"
+        xmlns:mater="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        Title="ImageTemplate"
+        x:Name="window"
+        MinWidth="1000"
+        MinHeight="800"
+        MaxWidth="1000"
+        MaxHeight="800"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Loaded}" CommandParameter="{Binding ElementName=canvas}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border x:Name="mauaulFrom" Grid.Row="1" Margin="10">
+            <Canvas x:Name="canvas" Width="{Binding ElementName=mauaulImage, Path=ActualWidth}" Height="{Binding ElementName=mauaulImage, Path=ActualHeight}" Background="Red">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <prism:InvokeCommandAction Command="{Binding CanvasLeftButtonUp}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <prism:InvokeCommandAction Command="{Binding CanvasLeftButtonDown}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseMove">
+                        <prism:InvokeCommandAction Command="{Binding CanvasMouseMove}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Image x:Name="mauaulImage"
+                       MaxWidth="{Binding ElementName=mauaulFrom, Path=ActualWidth}"
+                       MaxHeight="{Binding ElementName=mauaulFrom, Path=ActualHeight}"
+                       Panel.ZIndex="-1"
+                       Source="{Binding DisImage.DisImage}"
+                       Stretch="Uniform" />
+            </Canvas>
+        </Border>
+        <Button Content="写入" Style="{StaticResource Btn}" Background="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,20" Command="{Binding WriteLateral}" CommandParameter="{Binding ElementName=window}"/>
+    </Grid>
+</Window>

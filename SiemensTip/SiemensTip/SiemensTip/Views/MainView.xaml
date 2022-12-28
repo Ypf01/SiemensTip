@@ -1,0 +1,152 @@
+﻿<Window x:Class="SiemensTip.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cv="clr-namespace:SiemensTip.Helper"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:SiemensTip.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:SiemensTip.ViewModels"
+        Name="window"
+        Title="MainView"
+        Width="1400"
+        Height="1000"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <prism:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <sys:String x:Key="auto">auto</sys:String>
+        <vm:MainViewModel x:Key="dtVM" />
+        <cv:ColorConvert x:Key="maul" />
+        <cv:BoolConvert x:Key="cvShow" />
+        <cv:BoolTempConvert x:Key="tp" />
+        <sys:String x:Key="mauaul">mauaul</sys:String>
+        <cv:ImageDisplayWidthHeightConverter x:Key="ImageLengthCv" />
+        <cv:ResultArrayConverter x:Key="resultArray" />
+        <Style x:Key="txt" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,10" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="title" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource dtVM}" />
+    </Window.DataContext>
+    <Border Margin="5" Background="White" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="4" Opacity="0.5" ShadowDepth="5" Color="Black" />
+        </Border.Effect>
+        <Border.InputBindings>
+            <MouseBinding Command="{Binding LeftDoubleClick}" CommandParameter="{Binding ElementName=window}" MouseAction="LeftDoubleClick" />
+        </Border.InputBindings>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <i:InvokeCommandAction Command="{Binding PreviewMouseLeftButtonDown}" CommandParameter="{Binding ElementName=window}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+                <Grid Grid.Column="0" Visibility="{Binding IsMauaul, Converter={StaticResource cvShow}, ConverterParameter={StaticResource auto}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="85"/>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <ItemsControl x:Name="ItemsC" Grid.Row="0" Padding="5" ItemsSource="{Binding LeftDisImages}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid MaxWidth="{Binding ElementName=ItemsC, Path=ActualWidth}" MaxHeight="{Binding ElementName=ItemsC, Path=ActualHeight}" Columns="4" Rows="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <local:ImageDisplay MaxWidth="{Binding ElementName=ItemsC, Path=ActualWidth, Converter={StaticResource ImageLengthCv}}" MaxHeight="{Binding ElementName=ItemsC, Path=ActualHeight}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Border x:Name="border" Grid.Row="1" Margin="0" >
+                        <StackPanel Orientation="Vertical">
+                            <local:ResultShow Width="{Binding ElementName=border, Path=ActualWidth}" Height="{Binding ElementName=border, Path=ActualHeight, Converter={StaticResource resultArray}}" DataContext="{Binding LeftResult}" />
+                            <local:ResultShow Width="{Binding ElementName=border, Path=ActualWidth}" Height="{Binding ElementName=border, Path=ActualHeight, Converter={StaticResource resultArray}}" DataContext="{Binding RightResult}" />
+                        </StackPanel>
+                    </Border>
+                    <ItemsControl x:Name="ItemsB" Grid.Row="3" Padding="5" ItemsSource="{Binding RightDisImages}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid MaxWidth="{Binding ElementName=ItemsB, Path=ActualWidth}" MaxHeight="{Binding ElementName=ItemsB, Path=ActualHeight}" Columns="4" Rows="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <local:ImageDisplay MaxWidth="{Binding ElementName=ItemsB, Path=ActualWidth, Converter={StaticResource ImageLengthCv}}" MaxHeight="{Binding ElementName=ItemsB, Path=ActualHeight}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+            <Border x:Name="mauaulFrom" Grid.Column="0" Margin="10" Visibility="{Binding IsMauaul, Converter={StaticResource cvShow}, ConverterParameter={StaticResource mauaul}}">
+                <Canvas Width="{Binding ElementName=mauaulImage, Path=ActualWidth}" Height="{Binding ElementName=mauaulImage, Path=ActualHeight}" Background="Red">
+                    <Image x:Name="mauaulImage"
+                           MaxWidth="{Binding ElementName=mauaulFrom, Path=ActualWidth}"
+                           MaxHeight="{Binding ElementName=mauaulFrom, Path=ActualHeight}"
+                           Panel.ZIndex="-1"
+                           Source="{Binding DisImage.DisImage}"
+                           Stretch="Uniform" />
+                </Canvas>
+            </Border>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DockPanel x:Name="dp" Grid.Column="0" LastChildFill="False">
+                    <StackPanel Margin="5,10,0,0" DockPanel.Dock="Top">
+                        <TextBlock Style="{StaticResource title}" Text="一号仓数量：" />
+                        <TextBlock Style="{StaticResource txt}" Text="{Binding LeftTotal}" />
+                        <TextBlock Style="{StaticResource title}" Text="二号仓数量：" />
+                        <TextBlock Style="{StaticResource txt}" Text="{Binding RightTotal}" />
+                        <TextBlock Style="{StaticResource title}" Text="NG总数量:" />
+                        <TextBlock Height="30" Style="{StaticResource txt}" Text="{Binding NgTotal}" />
+                        <TextBlock Style="{StaticResource title}" Text="OK总数量:" />
+                        <TextBlock Height="30" Style="{StaticResource txt}" Text="{Binding OkTatal}" />
+                    </StackPanel>
+                    <Border Width="{Binding ElementName=dp, Path=ActualWidth}" Margin="0,40" Background="Transparent" DockPanel.Dock="Top">
+                        <TextBlock HorizontalAlignment="Center" FontSize="40"
+                                   Foreground="{Binding ManaulResult, Converter={StaticResource maul}}"
+                                   Text="{Binding ManaulResult}"
+                                   Visibility="{Binding IsMauaul, Converter={StaticResource cvShow}, ConverterParameter={StaticResource mauaul}}" />
+                    </Border>
+
+                    <StackPanel DockPanel.Dock="Bottom">
+                        <Button x:Name="kl"
+                                Command="{Binding OpenTemplateSetting}"
+                                Content="模板设置"
+                                Style="{StaticResource Btn}"
+                                Visibility="{Binding IsModifyTemplate, Converter={StaticResource tp}}" />
+                        <Button Command="{Binding OpenSetting}" Content="设置界面" Style="{StaticResource Btn}" Visibility="{Binding IsModifySetting, Converter={StaticResource tp}}" />
+                        <Button Command="{Binding Closing}" Content="退      出" Style="{StaticResource Btn}" />
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

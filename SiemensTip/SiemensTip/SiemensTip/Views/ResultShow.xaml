@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="SiemensTip.Views.ResultShow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cv="clr-namespace:SiemensTip.Helper"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SiemensTip.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="100"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <cv:WidhtConvert x:Key="wd" />
+        <cv:ColorConvert x:Key="color" />
+    </UserControl.Resources>
+    <Grid>
+        <ItemsControl x:Name="showList" ItemsSource="{Binding}" RenderTransformOrigin="0.5,0.5">
+            <ItemsControl.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </ItemsControl.RenderTransform>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid MaxWidth="{Binding ElementName=showList, Path=ActualWidth}" Columns="24"  Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Ellipse Height="40" Width="40"                           
+                             Fill="{Binding Converter={StaticResource color}}"
+                             ToolTip="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

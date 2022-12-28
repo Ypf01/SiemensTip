@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <NodeClass Name="PLC设备" Description="各种PLC控制设备">
+    <DeviceNode Name="SimensTip" Description="医疗检测设备" DeviceType="110" ConnectTimeOut="2000" ReConnectTime="5000" CreateTime="2022/4/20 10:50:11" InstallationDate="2022/4/20 10:50:11" IsActive="True" MaxErrorTimes="4" KeyWay="VarName" UseAlarmCheck="False" PortNum="COM3" Paud="38400" DataBits="8" Parity="None" StopBits="One" SleepTime="20">
+      <DeviceGroup Name="Communication" Description="通讯采集数据" Type="Inovance" StoreArea="D存储区" Length="50" Start="D700" SlaveID="1" IsActive="true">
+        <Variable Name="LeftCamera" Description="左相机触发" Type="Inovance" VarAddress="D700" Scale="1" Offset="0" Start="700" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="LeftCameraFinish" Description="左相机拍照完成" Type="Inovance" VarAddress="D701" Scale="1" Offset="0" Start="701" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="RightCamera" Description="右相机触发" Type="Inovance" VarAddress="D702" Scale="1" Offset="0" Start="702" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="RightCameraFinish" Description="右相机拍照完成" Type="Inovance" VarAddress="D703" Scale="1" Offset="0" Start="703" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="LeftTotal" Description="左边仓库当前总数量" Type="Inovance" VarAddress="D704" Scale="1" Offset="0" Start="704" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="RightTotal" Description="右边仓库当前总数量" Type="Inovance" VarAddress="D705" Scale="1" Offset="0" Start="705" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="NgTotal" Description="当前NG总数量" Type="Inovance" VarAddress="D706" Scale="1" Offset="0" Start="706" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Int" />
+        <Variable Name="OkTatal" Description="当前OK总数量" Type="Inovance" VarAddress="D708" Scale="1" Offset="0" Start="708" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Int" />
+        <Variable Name="ExternalTrigger" Description="相机手动测试1-8对应需要取照片的相机" Type="Inovance" VarAddress="D710" Scale="1" Offset="0" Start="710" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="LeftResult" Description="左侧结果" Type="Inovance" VarAddress="D711" Scale="1" Offset="0" Start="711" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Int" />
+        <Variable Name="RightResult" Description="右侧结果" Type="Inovance" VarAddress="D721" Scale="1" Offset="0" Start="721" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Int" />
+        <Variable Name="Status" Description="手自动状态/0手动/1自动" Type="Inovance" VarAddress="D730" Scale="1" Offset="0" Start="730" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+        <Variable Name="HeartBeat" Description="下位机心跳" Type="Inovance" VarAddress="D731" Scale="1" Offset="0" Start="731" AccessProperty="读写" AlarmEnable="False" ArchiveEnable="False" SetLimitEnable="False" VarType="Short" />
+      </DeviceGroup>
+    </DeviceNode>
+  </NodeClass>
+  <NodeClass Name="OPC客户端" Description="OPC相关客户端" />
+  <NodeClass Name="Modbus客户端" Description="Modbus相关客户端" />
+  <NodeClass Name="Custom客户端" Description="Custom相关客户端" />
+  <NodeClass Name="服务器" Description="自定义服务器" />
+</Settings>
